@@ -1,0 +1,8 @@
+package ch.luschmar.meteoschweiz.tools.crawler.dto.danger;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+public record HazardItem(int warnlevel, LocalDateTime expires, List<Integer> areas, WarnType warnType) {
+
+}

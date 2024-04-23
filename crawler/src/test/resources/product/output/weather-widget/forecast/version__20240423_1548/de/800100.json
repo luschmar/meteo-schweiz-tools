@@ -1,0 +1,85 @@
+{
+	"data": {
+		"altitude": 409,
+		"city_name": "Zürich",
+		"current": {
+			"temperature": "6",
+			"weather_symbol_id": "105"
+		},
+		"weather_symbol_id": 20,
+		"location_id": "800100",
+		"forecasts": [
+			{
+				"noon": 1713866400000,
+				"temp_high": "7",
+				"weekday": "Dienstag",
+				"temp_low": "3",
+				"precip_mean": "0.1",
+				"weather_symbol_id": "5"
+			},
+			{
+				"noon": 1713952800000,
+				"temp_high": "9",
+				"weekday": "Mittwoch",
+				"temp_low": "3",
+				"precip_mean": "0.5",
+				"weather_symbol_id": "3"
+			},
+			{
+				"noon": 1714039200000,
+				"temp_high": "10",
+				"weekday": "Donnerstag",
+				"temp_low": "2",
+				"precip_mean": "0.0",
+				"weather_symbol_id": "3"
+			},
+			{
+				"noon": 1714125600000,
+				"temp_high": "14",
+				"weekday": "Freitag",
+				"temp_low": "1",
+				"precip_mean": "0.0",
+				"weather_symbol_id": "3"
+			},
+			{
+				"noon": 1714212000000,
+				"temp_high": "19",
+				"weekday": "Samstag",
+				"temp_low": "5",
+				"precip_mean": "0.0",
+				"weather_symbol_id": "3"
+			},
+			{
+				"noon": 1714298400000,
+				"temp_high": "18",
+				"weekday": "Sonntag",
+				"temp_low": "7",
+				"precip_mean": "0.0",
+				"weather_symbol_id": "3"
+			},
+			{
+				"noon": 1714384800000,
+				"temp_high": "20",
+				"weekday": "Montag",
+				"temp_low": "8",
+				"precip_mean": "0.0",
+				"weather_symbol_id": "26"
+			},
+			{
+				"noon": 1714471200000,
+				"temp_high": "21",
+				"weekday": "Dienstag",
+				"temp_low": "9",
+				"precip_mean": "0.0",
+				"weather_symbol_id": "3"
+			}
+		],
+		"timestamp": 1713888089
+	},
+	"config": {
+		"name": "weather-widget",
+		"language": "de",
+		"version": "1.0.0",
+		"timestamp": 1713888089
+	}
+}
