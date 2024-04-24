@@ -14,5 +14,12 @@ public record ForecastChart(LocalDateTime currentTime,
 		Symbol symbolDay,
 		List<Rainfall> rainfall,
 		List<Sunshine> sunshine,
-		List<VarianceRain> varianceRain) {
+		List<Variance> varianceRain,
+		List<Variance> windGustSpeedVariance,
+		List<Variance> windSpeedVariance,
+		List<Variance> varianceRange,
+		List<Temperature> temperature,
+		List<Wind> windGustPeak,
+		List<WindWrapper> wind,
+		List<Symbol> symbols) {
 }

@@ -9,7 +9,7 @@ import ch.luschmar.meteoschweiz.tools.dto.WithLocationId;
 public record ForecastChartWrapper(List<ForecastChart> list, int locationId) implements WithLocationId<ForecastChartWrapper> {
 	@JsonCreator(mode = JsonCreator.Mode.DELEGATING)
 	public ForecastChartWrapper(List<ForecastChart> list) {
-		this(list, 0);
+		this(list, -1);
 	}
 
 	@Override
