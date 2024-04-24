@@ -47,5 +47,10 @@
 			<name>GitHub OWNER Apache Maven Packages</name>
 			<url>https://maven.pkg.github.com/luschmar/meteo-schweiz-tools</url>
 		</repository>
+		<snapshotRepository>
+			<id>github</id>
+			<name>GitHub OWNER Apache Maven Packages (SNAPSHOTS)</name>
+			<url>https://maven.pkg.github.com/luschmar/meteo-schweiz-tools</url>
+		</snapshotRepository>
 	</distributionManagement>
 </project>
