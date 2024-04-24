@@ -18,10 +18,10 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import ch.luschmar.meteoschweiz.tools.crawler.dto.KnownApi;
-import ch.luschmar.meteoschweiz.tools.crawler.dto.common.DataWrapper;
 import ch.luschmar.meteoschweiz.tools.crawler.dto.danger.Danger;
-import ch.luschmar.meteoschweiz.tools.crawler.dto.forecastchart.ForecastChart;
-import ch.luschmar.meteoschweiz.tools.crawler.dto.weatherwidget.WeatherWidget;
+import ch.luschmar.meteoschweiz.tools.crawler.dto.forecastchart.ForecastChartWrapper;
+import ch.luschmar.meteoschweiz.tools.crawler.dto.forecastmap.ForecastMap;
+import ch.luschmar.meteoschweiz.tools.crawler.dto.weatherwidget.WeatherWidgetWrapper;
 import ch.luschmar.meteoschweiz.tools.crawler.jackson.LocalDateTimeDeserializer;
 
 public class DataCrawler {
@@ -57,9 +57,19 @@ public class DataCrawler {
 		versionsCache.clear();
 	}
 
-	public List<ForecastChart> fetchForecastChart(int plz) {
-		try(var inputStream = client.getInputStream(constructVersionedUriWithPlz(KnownApi.FORECAST_CHART, plz))){
-			var typeRef = new TypeReference<List<ForecastChart>>() {};
+	public ForecastChartWrapper fetchForecastChart(int locationId) {
+		try(var inputStream = client.getInputStream(buildVersionedUrlWithLocationId(KnownApi.FORECAST_CHART, locationId))){
+			return objectMapper.readValue(inputStream, ForecastChartWrapper.class).withLocationId(locationId);
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public List<ForecastMap> fetchForecastMap() {
+		try(var inputStream = client.getInputStream(buildVersionedUrl(KnownApi.FORECAST_MAP))){
+			var typeRef = new TypeReference<List<ForecastMap>>() {};
 			return objectMapper.readValue(inputStream, typeRef);
 		} catch (IOException e) {
 			throw new UncheckedIOException(e);
@@ -68,10 +78,9 @@ public class DataCrawler {
 		}
 	}
 
-	public DataWrapper<WeatherWidget> fetchWidget(int plz) {
-		try(var inputStream = client.getInputStream(constructVersionedUriWithPlz(KnownApi.WEATHER_WIDGET, plz))){
-			var typeRef = new TypeReference<DataWrapper<WeatherWidget>>() {};
-			return objectMapper.readValue(inputStream, typeRef);
+	public WeatherWidgetWrapper fetchWidget(int locationId) {
+		try(var inputStream = client.getInputStream(buildVersionedUrlWithLocationId(KnownApi.WEATHER_WIDGET, locationId))){
+			return objectMapper.readValue(inputStream, WeatherWidgetWrapper.class).withLocationId(locationId);
 		} catch (IOException e) {
 			throw new UncheckedIOException(e);
 		} catch (InterruptedException e) {
@@ -80,7 +89,7 @@ public class DataCrawler {
 	}
 	
 	public Danger fetchDanger() {
-		try(var inputStream = client.getInputStream(constructVersionedUri(KnownApi.DANGER))){
+		try(var inputStream = client.getInputStream(buildVersionedUrl(KnownApi.DANGER))){
 			return objectMapper.readValue(inputStream, Danger.class);
 		} catch (IOException e) {
 			throw new UncheckedIOException(e);
@@ -100,7 +109,7 @@ public class DataCrawler {
 		}
 	}
 	
-	private URI constructVersionedUri(KnownApi knwonApi) {
+	private URI buildVersionedUrl(KnownApi knwonApi) {
 		if (versionsCache.isEmpty()) {
 			versionsCache.putAll(fetchVersions());
 		}
@@ -109,12 +118,12 @@ public class DataCrawler {
 		return overwriteUriPath(this.baseUrl, path);
 	}
 
-	private URI constructVersionedUriWithPlz(KnownApi knwonApi, int plz) {
+	private URI buildVersionedUrlWithLocationId(KnownApi knwonApi, int locationId) {
 		if (versionsCache.isEmpty()) {
 			versionsCache.putAll(fetchVersions());
 		}
 
-		var path = knwonApi.getPathPattern().formatted(versionsCache.get(knwonApi), plz);
+		var path = knwonApi.getPathPattern().formatted(versionsCache.get(knwonApi), locationId);
 		return overwriteUriPath(this.baseUrl, path);
 	}
 

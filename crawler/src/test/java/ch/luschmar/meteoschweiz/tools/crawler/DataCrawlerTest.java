@@ -9,6 +9,7 @@ import java.util.EnumSet;
 import org.junit.jupiter.api.Test;
 
 import ch.luschmar.meteoschweiz.tools.crawler.dto.KnownApi;
+import ch.luschmar.meteoschweiz.tools.crawler.transfer.FileInputStreamProvider;
 
 public class DataCrawlerTest {
 	@Test
@@ -25,19 +26,31 @@ public class DataCrawlerTest {
 		var crawler = new DataCrawler(new FileInputStreamProvider(), URI.create("http://example.com"));
 		
 		var data = crawler.fetchDanger();
+		System.out.println(data);
 	}
 	
 	@Test
 	void fetchForecastChart() throws URISyntaxException {
 		var crawler = new DataCrawler(new FileInputStreamProvider(), URI.create("http://example.com"));
 		
-		var data = crawler.fetchForecastChart(8001);
+		var data = crawler.fetchForecastChart(8001_00);
+		System.out.println(data);
 	}
 	
 	@Test
 	void fetchWidget() throws URISyntaxException {
 		var crawler = new DataCrawler(new FileInputStreamProvider(), URI.create("http://example.com"));
 		
-		var data = crawler.fetchWidget(8001);
+		var data = crawler.fetchWidget(8001_00);
+		System.out.println(data);
+	}
+	
+	@Test
+	void fetchForecastMap() throws URISyntaxException {
+		var crawler = new DataCrawler(new FileInputStreamProvider(), URI.create("http://example.com"));
+		
+		var data = crawler.fetchForecastMap();
+		
+		System.out.println(data.stream().filter(a -> a.locationId() == 8001_00).toList());
 	}
 }
