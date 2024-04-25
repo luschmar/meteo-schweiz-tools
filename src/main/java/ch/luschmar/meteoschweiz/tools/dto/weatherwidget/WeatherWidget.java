@@ -1,9 +1,9 @@
 package ch.luschmar.meteoschweiz.tools.dto.weatherwidget;
 
+import ch.luschmar.meteoschweiz.tools.dto.WithLocationId;
+
 import java.time.LocalDateTime;
 import java.util.List;
-
-import ch.luschmar.meteoschweiz.tools.dto.WithLocationId;
 
 public record WeatherWidget(
 		int locationId,
@@ -11,7 +11,7 @@ public record WeatherWidget(
 		String cityName,
 		Current current,
 		int weatherSymbolId,
-		LocalDateTime timestamp, 
+		LocalDateTime timestamp,
 		List<Forecast> forecasts) implements WithLocationId<WeatherWidget> {
 
 	@Override

@@ -7,8 +7,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse.BodyHandlers;
 
-import ch.luschmar.meteoschweiz.tools.InputStreamProvider;
-
 public class HttpClientInputStreamProvider implements InputStreamProvider {
 
 	public final HttpClient client;

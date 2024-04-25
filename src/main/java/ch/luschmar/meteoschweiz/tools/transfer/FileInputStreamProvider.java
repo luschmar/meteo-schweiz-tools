@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 
-import ch.luschmar.meteoschweiz.tools.InputStreamProvider;
-
 public class FileInputStreamProvider implements InputStreamProvider{
 
 	@Override

@@ -13,16 +13,16 @@ public enum KnownApi {
 	@JsonProperty("forecast-map")
 	FORECAST_MAP("/product/output/forecast-map/version__%s/de/chmap_current.json"),
 	@JsonEnumDefaultValue
-	UNKNWON(null);
-	
-	private String pathPattern;
+	UNKNOWN(null);
+
+	private final String pathPattern;
 
 	KnownApi(String pathPattern) {
 		this.pathPattern = pathPattern;
 	}
-	
+
 	public String getPathPattern() {
 		return pathPattern;
 	}
-	
+
 }

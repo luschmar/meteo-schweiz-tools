@@ -1,4 +1,4 @@
-package ch.luschmar.meteoschweiz.tools;
+package ch.luschmar.meteoschweiz.tools.transfer;
 
 import java.io.IOException;
 import java.io.InputStream;
