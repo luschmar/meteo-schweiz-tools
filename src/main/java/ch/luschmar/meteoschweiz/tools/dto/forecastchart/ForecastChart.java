@@ -19,7 +19,7 @@ public record ForecastChart(LocalDateTime currentTime,
 		List<Variance> windSpeedVariance,
 		List<Variance> varianceRange,
 		List<Temperature> temperature,
-		//List<WindWrapper> windGustPeak,
-		//List<WindWrapper> wind,
+		WindWrapper windGustPeak,
+		WindWrapper wind,
 		List<Symbol> symbols) {
 }

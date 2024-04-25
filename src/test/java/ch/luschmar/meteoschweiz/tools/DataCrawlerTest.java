@@ -12,7 +12,7 @@ import ch.luschmar.meteoschweiz.tools.DataCrawler;
 import ch.luschmar.meteoschweiz.tools.dto.KnownApi;
 import ch.luschmar.meteoschweiz.tools.transfer.FileInputStreamProvider;
 
-public class DataCrawlerTest {
+class DataCrawlerTest {
 	@Test
 	void testVersion() throws URISyntaxException {
 		var crawler = new DataCrawler(new FileInputStreamProvider(), URI.create("http://example.com"));
