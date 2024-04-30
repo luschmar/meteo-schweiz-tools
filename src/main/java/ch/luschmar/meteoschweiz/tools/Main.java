@@ -13,14 +13,9 @@ public class Main {
 
 		var crawler = new DataCrawler(new HttpClientInputStreamProvider(client), config.baseUrl());
 
-		var resultForecast = crawler.fetchForecastChart(config.locationId());
+		var resultForecast = crawler.fetchWeatherReport("de", "north");
+		
 		System.out.println(resultForecast);
-
-		var resultWidget = crawler.fetchWidget(config.locationId());
-		System.out.println(resultWidget);
-
-		var danger = crawler.fetchDanger();
-		System.out.println(danger);
 	}
 
 	private record Configuration(URI baseUrl, int locationId) {

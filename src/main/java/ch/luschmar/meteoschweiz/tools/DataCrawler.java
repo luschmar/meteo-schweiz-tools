@@ -4,6 +4,9 @@ import ch.luschmar.meteoschweiz.tools.dto.KnownApi;
 import ch.luschmar.meteoschweiz.tools.dto.danger.Danger;
 import ch.luschmar.meteoschweiz.tools.dto.forecastchart.ForecastChartWrapper;
 import ch.luschmar.meteoschweiz.tools.dto.forecastmap.ForecastMap;
+import ch.luschmar.meteoschweiz.tools.dto.weatherreport.Content;
+import ch.luschmar.meteoschweiz.tools.dto.weatherreport.Text;
+import ch.luschmar.meteoschweiz.tools.dto.weatherreport.Title;
 import ch.luschmar.meteoschweiz.tools.dto.weatherwidget.WeatherWidgetWrapper;
 import ch.luschmar.meteoschweiz.tools.jackson.LocalDateTimeDeserializer;
 import ch.luschmar.meteoschweiz.tools.transfer.InputStreamProvider;
@@ -15,6 +18,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.net.URI;
@@ -23,6 +27,11 @@ import java.time.LocalDateTime;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
 
 public class DataCrawler {
 	private static final String VERSION_PATH = "/product/output/versions.json";
@@ -67,6 +76,31 @@ public class DataCrawler {
 		}
 	}
 
+	public List<Content> fetchWeatherReport(String lang, String location) {
+		try (var inputStream = client.getInputStream(buildVersionedUrl(KnownApi.selectWeatherReport(lang, location)))) {
+			try (var bufferedInputStream = new BufferedInputStream(inputStream)){
+				var doc = Jsoup.parseBodyFragment(new String(bufferedInputStream.readAllBytes()));
+				return doc.body().getElementsByTag("div").stream().flatMap(a -> a.childNodes().stream()).map(this::toContent).filter(Objects::nonNull).toList();
+			}
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	private Content toContent(Node n) {
+	
+		if(n instanceof Element e) {
+			if(e.tagName().equalsIgnoreCase("p")) {
+				return new Text(e.text());
+			}
+			return new Title(e.text());
+		}
+		return null;
+	}
+
+	
 	public List<ForecastMap> fetchForecastMap() {
 		try (var inputStream = client.getInputStream(buildVersionedUrl(KnownApi.FORECAST_MAP))) {
 			var typeRef = new TypeReference<List<ForecastMap>>() {
